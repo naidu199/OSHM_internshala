@@ -20,7 +20,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     final dates = getDatesInRange(DateTime.now(), 30);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: Column(
         children: [
           Row(

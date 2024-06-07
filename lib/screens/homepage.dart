@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oshm_internshala/constants/colors.dart';
 import 'package:oshm_internshala/widgets/calender.dart';
 import 'package:oshm_internshala/widgets/taskbaroverview.dart';
+import 'package:oshm_internshala/widgets/taskcard.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -44,17 +45,17 @@ class HomePage extends StatelessWidget {
                   Icon(
                     Icons.warning_amber,
                     color: Colors.white,
-                    size: 20,
+                    size: 18,
                   ),
                   SizedBox(
                     width: 3,
                   ),
                   Text(
-                    "Incident Log",
+                    "Incident Logs",
                     style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     width: 5,
@@ -73,7 +74,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -81,6 +82,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10),
             const TaskBar(),
             const SizedBox(height: 10),
+            const TaskCard(),
             // Task List
             Expanded(
               child: ListView(
