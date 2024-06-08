@@ -114,15 +114,17 @@ class HomePage extends StatelessWidget {
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       showDragHandle: true,
-      enableDrag: true,
+      // enableDrag: true,
       isScrollControlled: true,
+
       builder: (context) {
         return DraggableScrollableSheet(
-          maxChildSize: 0.9,
-          initialChildSize: 0.85,
+          maxChildSize: 1,
+          initialChildSize: 0.9,
           minChildSize: 0.2,
+          expand: false,
           builder: (context, scrollController) {
             return Container(
               decoration: const BoxDecoration(
