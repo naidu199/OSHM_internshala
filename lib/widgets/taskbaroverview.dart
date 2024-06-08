@@ -22,12 +22,12 @@ class TaskBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                     color: Colors.pink.withOpacity(0.2),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Task Overview',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.pink,
+                      color: Colors.pinkAccent[400],
                     ),
                   ),
                 ),

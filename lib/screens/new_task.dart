@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:oshm_internshala/widgets/new_task_allotment.dart';
 import 'package:oshm_internshala/widgets/new_task_details.dart';
@@ -52,7 +50,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               TextButton(
                 child: const Text(
                   'cancel',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.red, fontSize: 16),
                 ),
                 onPressed: () {
                   Navigator.pop(context);
@@ -63,7 +61,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               TextButton(
                 child: const Text(
                   'Save',
-                  style: TextStyle(color: Colors.green),
+                  style: TextStyle(color: Colors.green, fontSize: 16),
                 ),
                 onPressed: () {},
               ),
@@ -177,9 +175,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   color: Colors.green,
                   size: 32,
                 ),
-                onPressed: () {
-                  // Add checklist item action
-                },
+                onPressed: () {},
               ),
             ],
           ),
@@ -200,7 +196,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           Center(
               heightFactor: 0.2,
               child: IconButton(
-                // padding: const EdgeInsets.all(0),
                 onPressed: () {},
                 icon: const Icon(
                   Icons.arrow_drop_down,

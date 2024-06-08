@@ -132,7 +132,11 @@ class _HomePageState extends State<HomePage> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
         onPressed: () => _showBottomSheet(context),
         backgroundColor: Colors.pink,
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 32,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
