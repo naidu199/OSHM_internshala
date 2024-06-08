@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:oshm_internshala/constants/colors.dart';
+import 'package:oshm_internshala/model/task_model.dart';
+import 'package:oshm_internshala/screens/new_task.dart';
 import 'package:oshm_internshala/widgets/calender.dart';
 import 'package:oshm_internshala/widgets/taskbaroverview.dart';
 import 'package:oshm_internshala/widgets/taskcard.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
+  HomePage({super.key});
+  final List<Task> tasks = Task.tasks;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,130 +75,71 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CalendarPage(),
-            const SizedBox(height: 10),
-            const TaskBar(),
-            const SizedBox(height: 10),
-            const TaskCard(),
-            // Task List
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildTaskCard(
-                    'Room 303 Set Up',
-                    'Housekeeping',
-                    'High',
-                    'Garima Bhatia',
-                    30,
-                    '14 July 2024, 05:00 PM',
-                  ),
-                  _buildTaskCard(
-                    'Fire Place Check & Up...',
-                    'Maintenance &...',
-                    'Low',
-                    'Ranganathan',
-                    0,
-                    '14 July 2024, 05:00 PM',
-                  ),
-                ],
-              ),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CalendarPage(),
+              const SizedBox(height: 10),
+              const TaskBar(),
+              const SizedBox(height: 10),
+              // TaskCard(),
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: tasks.length,
+                  itemBuilder: ((context, index) {
+                    return TaskCard(task: tasks[index]);
+                  }))
+
+              // Task List
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+        onPressed: () => _showBottomSheet(context),
         backgroundColor: Colors.pink,
         child: const Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  Widget _buildStatusCard(String title, Color color, int count) {
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            '$count',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTaskCard(String title, String category, String priority,
-      String assignedTo, int progress, String dueDate) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.check_box, color: Colors.blue),
-                const SizedBox(width: 8),
-                Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      showDragHandle: true,
+      enableDrag: true,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          maxChildSize: 0.9,
+          initialChildSize: 0.85,
+          minChildSize: 0.2,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
-                const Spacer(),
-                Text(
-                  priority,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(category),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Text('Assigned to: $assignedTo'),
-                const Spacer(),
-                Text(dueDate),
-              ],
-            ),
-            const SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: progress / 100,
-              backgroundColor: Colors.grey[200],
-              color: Colors.green,
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Text('In-progress'),
-                const Spacer(),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
-                  child: const Text('Done'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+              ),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: const NewTaskScreen(),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

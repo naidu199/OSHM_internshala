@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+// import 'package:flutter/widgets.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
+import 'package:oshm_internshala/model/task_model.dart';
 
 class TaskCard extends StatelessWidget {
-  const TaskCard({super.key});
+  final Task task;
+  const TaskCard({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.only(bottom: 20),
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
@@ -15,8 +18,15 @@ class TaskCard extends StatelessWidget {
       child: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(8.0),
-        child: const Column(
-          children: [TaskDetails(), TaskProgress()],
+        child: Column(
+          children: [
+            TaskDetails(
+              task: task,
+            ),
+            TaskProgress(
+              task: task,
+            ),
+          ],
         ),
       ),
     );
@@ -24,7 +34,8 @@ class TaskCard extends StatelessWidget {
 }
 
 class TaskDetails extends StatelessWidget {
-  const TaskDetails({super.key});
+  final Task task;
+  const TaskDetails({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +48,10 @@ class TaskDetails extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(6.0),
               decoration: BoxDecoration(
-                color: Colors.blue[100],
+                color: task.mainIconColor.withOpacity(0.6),
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: Icon(Icons.cleaning_services,
+              child: Icon(task.mainIcon,
                   size: 40, color: Colors.white.withOpacity(0.9)),
             ),
             const SizedBox(width: 8.0),
@@ -48,9 +59,9 @@ class TaskDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Room 303 Set Up',
-                    style: TextStyle(
+                  Text(
+                    task.title,
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -58,9 +69,9 @@ class TaskDetails extends StatelessWidget {
                   const SizedBox(height: 4.0),
                   Row(
                     children: [
-                      const Text(
-                        'Housekeeping',
-                        style: TextStyle(
+                      Text(
+                        task.category,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                           fontSize: 14.0,
@@ -71,21 +82,21 @@ class TaskDetails extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8.0, vertical: 4.0),
                         decoration: BoxDecoration(
-                          color: Colors.red[100],
+                          color: task.priorityIconColor.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(4.0),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
                             Icon(
-                              Icons.signal_cellular_alt_rounded,
-                              color: Colors.red,
+                              task.priorityIcon,
+                              color: task.priorityIconColor,
                               size: 14.0,
                             ),
-                            SizedBox(width: 4.0),
+                            const SizedBox(width: 4.0),
                             Text(
-                              'High',
+                              task.priority,
                               style: TextStyle(
-                                  color: Colors.red,
+                                  color: task.priorityIconColor,
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -98,21 +109,21 @@ class TaskDetails extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8.0),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'View More',
                   style: TextStyle(
                       color: Colors.green,
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 12.0),
+                const SizedBox(height: 12.0),
                 Text(
-                  'Garima Bhatia',
-                  style: TextStyle(
+                  task.assignedTo,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0,
@@ -132,7 +143,8 @@ class TaskDetails extends StatelessWidget {
 }
 
 class TaskProgress extends StatelessWidget {
-  const TaskProgress({super.key});
+  final Task task;
+  const TaskProgress({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +157,8 @@ class TaskProgress extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               RichText(
-                  text: const TextSpan(children: [
-                TextSpan(
+                  text: TextSpan(children: [
+                const TextSpan(
                   text: "Progress status: ",
                   style: TextStyle(
                       fontSize: 16.0,
@@ -154,19 +166,15 @@ class TaskProgress extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
-                  text: " 30%",
+                  text: "${task.progress}%",
                   style: TextStyle(
                       fontSize: 16.0,
-                      color: Colors.orange,
+                      color: task.progressColor,
                       fontWeight: FontWeight.bold),
                 )
               ])),
-              // const Text(
-              //   "Progress status: 30%",
-              //   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-              // ),
-              const Text("14 July 2024, 05:00 PM",
-                  style: TextStyle(
+              Text(task.dueDate,
+                  style: const TextStyle(
                       fontSize: 14.0,
                       color: Colors.grey,
                       fontWeight: FontWeight.w500)),
@@ -175,19 +183,19 @@ class TaskProgress extends StatelessWidget {
         ),
         const SizedBox(height: 8.0),
         FlutterStepIndicator(
-          page: 2,
+          page: (task.progress / 20).floor(),
           height: 25,
           list: List.generate(5, (index) => index),
           onChange: (index) {},
-          progressColor: Colors.orange,
-          positiveColor: Colors.orange,
+          progressColor: task.progressColor,
+          positiveColor: task.progressColor,
           negativeColor: Colors.grey,
         ),
-        const Text("In-progress",
+        Text(task.status,
             style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.bold,
-              color: Colors.orange,
+              color: task.progressColor,
             )),
         // const SizedBox(height: 4.0),
         Row(
@@ -198,23 +206,31 @@ class TaskProgress extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(3),
                   decoration: BoxDecoration(
+                      color: task.progress == 100 ? Colors.grey : Colors.white,
                       borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.green, width: 2)),
-                  child: const Row(
+                      border: Border.all(
+                          color: task.progress == 100
+                              ? Colors.white
+                              : Colors.green,
+                          width: 2)),
+                  child: Row(
                     children: [
                       Icon(
                         Icons.check_circle_outline,
                         size: 24,
-                        color: Colors.green,
+                        color:
+                            task.progress == 100 ? Colors.white : Colors.green,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
-                      Text("Done",
+                      Text(task.progress == 0 ? "Start" : "Done",
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: task.progress == 100
+                                ? Colors.white
+                                : Colors.green,
                           )),
                     ],
                   ),
