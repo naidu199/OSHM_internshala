@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TaskBar extends StatelessWidget {
-  const TaskBar({super.key});
-
+  final Function(String) onStatusSelected;
+  const TaskBar({super.key, required this.onStatusSelected});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -13,21 +13,22 @@ class TaskBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                decoration: BoxDecoration(
-                  // border: const Border(
-                  //     bottom: BorderSide(width: 2.0, color: Colors.pink)),
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.pink.withOpacity(0.2),
-                ),
-                child: const Text(
-                  'Task Overview',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink,
+              InkWell(
+                onTap: () => onStatusSelected(''),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.pink.withOpacity(0.2),
+                  ),
+                  child: const Text(
+                    'Task Overview',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.pink,
+                    ),
                   ),
                 ),
               ),
@@ -50,31 +51,51 @@ class TaskBar extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  _buildStatusCard(
-                    'To Do Task',
-                    Colors.yellow,
-                    16,
+                  InkWell(
+                    onTap: () {
+                      onStatusSelected('To do task');
+                    },
+                    child: _buildStatusCard(
+                      'To Do Task',
+                      Colors.yellow,
+                      16,
+                    ),
                   ),
                   const SizedBox(height: 8.0),
-                  _buildStatusCard(
-                    'In-progress',
-                    Colors.orange,
-                    16,
+                  InkWell(
+                    onTap: () {
+                      onStatusSelected('In-progress');
+                    },
+                    child: _buildStatusCard(
+                      'In-progress',
+                      Colors.orange,
+                      16,
+                    ),
                   ),
                 ],
               ),
               Column(
                 children: [
-                  _buildStatusCard(
-                    'Overdue',
-                    Colors.red,
-                    16,
+                  InkWell(
+                    onTap: () {
+                      onStatusSelected('Overdue');
+                    },
+                    child: _buildStatusCard(
+                      'Overdue',
+                      Colors.red,
+                      16,
+                    ),
                   ),
                   const SizedBox(height: 8.0),
-                  _buildStatusCard(
-                    'Completed',
-                    Colors.green,
-                    16,
+                  InkWell(
+                    onTap: () {
+                      onStatusSelected('Completed');
+                    },
+                    child: _buildStatusCard(
+                      'Completed',
+                      Colors.green,
+                      16,
+                    ),
                   ),
                 ],
               ),

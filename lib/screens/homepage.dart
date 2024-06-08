@@ -6,9 +6,32 @@ import 'package:oshm_internshala/widgets/calender.dart';
 import 'package:oshm_internshala/widgets/taskbaroverview.dart';
 import 'package:oshm_internshala/widgets/taskcard.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
-  final List<Task> tasks = Task.tasks;
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String _selectedStatus = '';
+
+  void _filterTasksByStatus(String status) {
+    setState(() {
+      _selectedStatus = status;
+    });
+  }
+
+  List<Task> _getFilteredTasks() {
+    if (_selectedStatus == '') {
+      return Task.tasks.take(5).toList();
+    } else {
+      return Task.tasks
+          .where((task) => task.status == _selectedStatus)
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,16 +107,20 @@ class HomePage extends StatelessWidget {
             children: [
               const CalendarPage(),
               const SizedBox(height: 10),
-              const TaskBar(),
+              TaskBar(
+                onStatusSelected: _filterTasksByStatus,
+              ),
               const SizedBox(height: 10),
               // TaskCard(),
               ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: tasks.length,
-                  itemBuilder: ((context, index) {
-                    return TaskCard(task: tasks[index]);
-                  }))
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _getFilteredTasks().length,
+                itemBuilder: (context, index) {
+                  List<Task> tasks = _getFilteredTasks();
+                  return TaskCard(task: tasks[index]);
+                },
+              ),
 
               // Task List
             ],

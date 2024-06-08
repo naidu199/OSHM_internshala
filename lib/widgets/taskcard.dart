@@ -17,7 +17,7 @@ class TaskCard extends StatelessWidget {
       ),
       child: Container(
         color: Colors.white,
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 12),
         child: Column(
           children: [
             TaskDetails(
@@ -161,29 +161,29 @@ class TaskProgress extends StatelessWidget {
                 const TextSpan(
                   text: "Progress status: ",
                   style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 13.0,
                       color: Colors.grey,
                       fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
                   text: "${task.progress}%",
                   style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 13.0,
                       color: task.progressColor,
                       fontWeight: FontWeight.bold),
                 )
               ])),
               Text(task.dueDate,
                   style: const TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 11.0,
                       color: Colors.grey,
                       fontWeight: FontWeight.w500)),
             ],
           ),
         ),
-        const SizedBox(height: 8.0),
+        const SizedBox(height: 10.0),
         FlutterStepIndicator(
-          page: (task.progress / 20).floor(),
+          page: task.page,
           height: 25,
           list: List.generate(5, (index) => index),
           onChange: (index) {},
@@ -204,12 +204,13 @@ class TaskProgress extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                      color: task.progress == 100 ? Colors.grey : Colors.white,
+                      color:
+                          task.progress == '100' ? Colors.grey : Colors.white,
                       borderRadius: BorderRadius.circular(25),
                       border: Border.all(
-                          color: task.progress == 100
+                          color: task.progress == '100'
                               ? Colors.white
                               : Colors.green,
                           width: 2)),
@@ -218,17 +219,23 @@ class TaskProgress extends StatelessWidget {
                       Icon(
                         Icons.check_circle_outline,
                         size: 24,
-                        color:
-                            task.progress == 100 ? Colors.white : Colors.green,
+                        color: task.progress == '100'
+                            ? Colors.white
+                            : Colors.green,
                       ),
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(task.progress == 0 ? "Start" : "Done",
+                      Text(
+                          task.progress == '0' ||
+                                  (task.status == 'Overdue' &&
+                                      task.progress != 'Approval Awaited')
+                              ? "Start"
+                              : "Done",
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
-                            color: task.progress == 100
+                            color: task.progress == '100'
                                 ? Colors.white
                                 : Colors.green,
                           )),

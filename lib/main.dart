@@ -3,6 +3,7 @@ import 'package:oshm_internshala/routes/approutes.dart';
 import 'package:oshm_internshala/screens/homepage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
