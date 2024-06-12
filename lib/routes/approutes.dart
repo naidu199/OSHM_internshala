@@ -3,6 +3,6 @@ import 'package:oshm_internshala/screens/homepage.dart';
 class AppRoutes {
   static const String homepageRoute = '/homepage';
   static final routes = {
-    homepageRoute: (context) => HomePage(),
+    homepageRoute: (context) => const HomePage(),
   };
 }

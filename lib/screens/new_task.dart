@@ -24,12 +24,10 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     "Stocked, clean dustbin"
   ];
 
-  // final TextEditingController _pointsController = TextEditingController();
   final TextEditingController _checkListController = TextEditingController();
   bool isSelected = false;
   @override
   void dispose() {
-    // _pointsController.dispose();
     _checkListController.dispose();
     super.dispose();
   }
