@@ -30,6 +30,8 @@ class Task {
     required this.progressColor,
     required this.priorityIconColor,
   });
+
+  
   static List<Task> tasks = [
     Task(
       title: 'Room 303 Set Up',
