@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                 onStatusSelected: _filterTasksByStatus,
               ),
               const SizedBox(height: 10),
-              // TaskCard(),
+             
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -121,8 +121,6 @@ class _HomePageState extends State<HomePage> {
                   return TaskCard(task: tasks[index]);
                 },
               ),
-
-              // Task List
             ],
           ),
         ),
@@ -147,7 +145,6 @@ class _HomePageState extends State<HomePage> {
       context: context,
       backgroundColor: Colors.transparent,
       showDragHandle: true,
-      // enableDrag: true,
       isScrollControlled: true,
 
       builder: (context) {
