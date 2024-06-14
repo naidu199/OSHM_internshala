@@ -37,7 +37,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
